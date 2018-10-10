@@ -103,24 +103,5 @@ public class Link : NetBehaviour
         var c2 = Convert.ToInt32(guidStr.Substring(2, 2), 16);
         var c3 = Convert.ToInt32(guidStr.Substring(4, 2), 16);
         return new Color((float)c1 / 255f, (float)c2 / 255f, (float)c3 / 255f);
-        //new Color()
-        //string[] parts = new string[]
-        //{ 
-        //    guidStr.Substring(0, 8),
-        //    guidStr.Substring(8, 8),
-        //    guidStr.Substring(16, 8),
-        //    guidStr.Substring(24, 8),
-        //};
-        //var c1 = Mathf.Abs(parts[0].GetHashCode());
-        //var c2 = Mathf.Abs(parts[1].GetHashCode());
-        //var c3 = Mathf.Abs(parts[2].GetHashCode());
-        //var cMax = Mathf.Max(c1, c2, c3);
-        //var color = new Color(
-        //    c1 / cMax,
-        //    c2 / cMax,
-        //    c3 / cMax
-        //);
-        //Debug.Log($"Guid:{guid.ToString("N")} becomes Color:{color.ToString()}");
-        //return color;
     }
 }
