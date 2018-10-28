@@ -15,7 +15,7 @@ public class Link : NetBehaviour
     public int NodeBPort;
     public ulong Rate = 10;
 
-    public NetworkSim.Link _link;
+    public NetworkSim.Devices.Link _link;
 
     private bool _initialized = false;
     private Dictionary<Guid, Transform> _packetTrackers = new Dictionary<Guid, Transform>();
@@ -46,6 +46,8 @@ public class Link : NetBehaviour
         // NodeA -> NodeB
         foreach (var p in this._link.BufferB)
         {
+            if (p.Packet.SystemPacket)
+                continue;
             var tracker = this.GetPacketTracker(p.Packet.Guid, this.NodeAPosition);
             tracker.position = Vector3.Lerp(
                 this.NodeAPosition.position,
@@ -57,6 +59,8 @@ public class Link : NetBehaviour
         // NodeB -> NodeA
         foreach (var p in this._link.BufferA)
         {
+            if (p.Packet.SystemPacket)
+                continue;
             var tracker = this.GetPacketTracker(p.Packet.Guid, this.NodeAPosition);
             tracker.position = Vector3.Lerp(
                 this.NodeBPosition.position,

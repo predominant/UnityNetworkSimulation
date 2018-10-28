@@ -12,7 +12,7 @@ public class Node : NetBehaviour
 
     public int ports = 1;
     public NodeType Type = NodeType.Node;
-    public NetworkSim.Node _node;
+    public NetworkSim.Devices.Node _node;
     public string IPAddress = "127.0.0.1";
 
     public new void Awake()
@@ -21,10 +21,10 @@ public class Node : NetBehaviour
         switch (this.Type)
         {
             case NodeType.Node:
-                this._node = this._simulation.CreateNode<NetworkSim.Node>(this.ports);
+                this._node = this._simulation.CreateNode<NetworkSim.Devices.Node>(this.ports);
                 break;
             case NodeType.Switch:
-                this._node = this._simulation.CreateNode<NetworkSim.Switch>(this.ports);
+                this._node = this._simulation.CreateNode<NetworkSim.Devices.Switch>(this.ports);
                 break;
         }
         
