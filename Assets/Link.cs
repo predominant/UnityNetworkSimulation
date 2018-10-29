@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using NetworkSim.Packets;
 
 public class Link : NetBehaviour
 {
@@ -46,9 +47,7 @@ public class Link : NetBehaviour
         // NodeA -> NodeB
         foreach (var p in this._link.BufferB)
         {
-            if (p.Packet.SystemPacket)
-                continue;
-            var tracker = this.GetPacketTracker(p.Packet.Guid, this.NodeAPosition);
+            var tracker = this.GetPacketTracker(p, this.NodeAPosition);
             tracker.position = Vector3.Lerp(
                 this.NodeAPosition.position,
                 this.NodeBPosition.position,
@@ -59,9 +58,7 @@ public class Link : NetBehaviour
         // NodeB -> NodeA
         foreach (var p in this._link.BufferA)
         {
-            if (p.Packet.SystemPacket)
-                continue;
-            var tracker = this.GetPacketTracker(p.Packet.Guid, this.NodeAPosition);
+            var tracker = this.GetPacketTracker(p, this.NodeAPosition);
             tracker.position = Vector3.Lerp(
                 this.NodeBPosition.position,
                 this.NodeAPosition.position,
@@ -77,15 +74,17 @@ public class Link : NetBehaviour
         }
     }
 
-    public Transform GetPacketTracker(Guid guid, Transform start)
+    public Transform GetPacketTracker(PacketTime p, Transform start)
     {
-        if (!this._packetTrackers.ContainsKey(guid))
+        if (!this._packetTrackers.ContainsKey(p.Packet.Guid))
         {
-            var packetTracker = this.CreatePacketTracker(guid, start);
-            this._packetTrackers.Add(guid, packetTracker);
+            var packetTracker = this.CreatePacketTracker(p.Packet.Guid, start);
+            if (p.Packet.SystemPacket)
+                packetTracker.localScale = packetTracker.localScale * 0.4f;
+            this._packetTrackers.Add(p.Packet.Guid, packetTracker);
             return packetTracker;
         }
-        return this._packetTrackers[guid];
+        return this._packetTrackers[p.Packet.Guid];
     }
 
     public Transform CreatePacketTracker(Guid guid, Transform start)
